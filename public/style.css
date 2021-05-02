@@ -1,0 +1,41 @@
+@import url(https://fonts.googleapis.com/css2?family=Alike&display=swap);
+body{
+    background-color: wheat;
+    font-family:'Alike', serif
+    
+   
+}
+main{
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(150px, auto);
+    grid-gap: 10px;
+    
+}
+div{
+    
+        background: #ccc;
+        border: 1px solid #111;
+      text-align: center;
+      justify-content: center;
+}
+
+@media (max-width:479px) {
+    body{
+        align-content: center;
+        background: darkgoldenrod;
+        
+    }
+    main{
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: minmax(150px, auto);
+        grid-gap: 10px;
+        
+    }
+    div{
+        
+            background: #ccc;
+            border: 1px solid #111;
+          text-align: center;
+          justify-content: center;
+    }
+}
