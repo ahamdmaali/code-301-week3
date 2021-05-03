@@ -5,15 +5,35 @@ const express = require('express');
 const superagent = require('superagent');
 const PORT = process.env.PORT || 3000;
 const server = express();
-
+const pg = require('pg');
+const client = new pg.Client(process.env.DATABASE_URL);
 
 server.use(express.urlencoded({extended:true}));
 server.set('view engine','ejs');
 
+let counter=0;
 server.get('/',(req,res)=>{
-    res.render('./pages/index')
+  let SQL= `SELECT * FROM books`;
+  client.query(SQL)
+  .then(data=>{
+    counter++;
+    res.render('index',{book:data.rows[0]});
+  })
+    
 })
 server.post('/searches',searchHandler);
+server.get('/books/:id',bookDatailsHandler)
+
+function bookDatailsHandler(req,res){
+ 
+  let bookId = req.params.id;
+  let SQL = `SELECT * FROM books WHERE id=$1;`;
+  let safeValue = [bookId];
+  client.query(SQL,safeValue)
+  .then(data=>{
+    res.render('pages/books/show',{bookDeatails:data.rows[0]});
+  })
+}
 let booksArr=[];
 function searchHandler(req,res){
     
