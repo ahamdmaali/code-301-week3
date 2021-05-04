@@ -14,27 +14,25 @@ server.get('/',(req,res)=>{
     res.render('./pages/index')
 })
 server.post('/searches',searchHandler);
-let booksArr=[];
+
 function searchHandler(req,res){
-  booksArr=[];
+     let arrayOfBooks=[];
      let bookName= req.body.title
      let bookAuther= req.body.auther
     let url= `https://www.googleapis.com/books/v1/volumes?q=in${bookName}+${bookAuther}`
    
     superagent.get(url)
     .then(booksData=>{
-    // console.log(booksData.body.items);
       booksData.body.items.forEach(item => {
-        new Book(item);
-        res.render('pages/searches/new',{bookDeatails: booksArr});
-        console.log(booksArr)
-      })
-      
-    
+        arrayOfBooks.push(new Book(item));
+        res.render('pages/searches/new',{bookDeatails: arrayOfBooks});
+      })  
     })
+    
     .catch(error=>{
         res.send(error);
     })
+ 
 }
 
  let Book = function(bookObj){
@@ -44,7 +42,7 @@ function searchHandler(req,res){
     this.publishedDate=bookObj.volumeInfo.publishedDate;
     this.imageLinks= bookObj.volumeInfo.imageLinks.smallThumbnail;
     this.canonicalVolumeLink= bookObj.volumeInfo.canonicalVolumeLink;
-    booksArr.push(this)
+    
 };
 server.listen(PORT,()=>{
     console.log(`listening to port ${PORT}`)
