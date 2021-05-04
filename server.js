@@ -15,6 +15,7 @@ server.get('/',(req,res)=>{
   res.render('pages/index')
 })
 server.post('/searches',searchHandler);
+
 server.get('/books/:id',bookDatailsHandler)
 server.put('/updateBook/:id',updateBookHandler);
 server.delete('/deleteBook/:id',deleteBookHandler);
@@ -39,12 +40,18 @@ client.query(SQL)
  console.log(results.rows)
  res.render('pages/searches/new',{bookDeatails: results.rows[0]});
 })
+
+
+function searchHandler(req,res){
+     let arrayOfBooks=[];
+
      let bookName= req.body.title
      let bookAuther= req.body.auther
-    let url= `https://www.googleapis.com/books/v1/volumes?q=${bookName}+${bookAuther}`
+    let url= `https://www.googleapis.com/books/v1/volumes?q=in${bookName}+${bookAuther}`
    
     superagent.get(url)
     .then(booksData=>{
+
       let SQL = `INSERT INTO books (title,auther,publisher,publishedDate,imageLinks,canonicalVolumeLink) VALUES
   ($1,$2,$3,$4,$5,$6);`;
       booksData.body.items.forEach(item => {
@@ -59,10 +66,19 @@ client.query(SQL)
       })
      
     
+
+
+      booksData.body.items.forEach(item => {
+        arrayOfBooks.push(new Book(item));
+        res.render('pages/searches/new',{bookDeatails: arrayOfBooks});
+      })  
+
     })
+    
     .catch(error=>{
         res.send(error);
     })
+ 
 }
 function updateBookHandler(req,res){
 
@@ -94,7 +110,7 @@ function deleteBookHandler(req,res){
     this.publishedDate=bookObj.volumeInfo.publishedDate;
     this.imageLinks= bookObj.volumeInfo.imageLinks.smallThumbnail;
     this.canonicalVolumeLink= bookObj.volumeInfo.canonicalVolumeLink;
-    booksArr.push(this)
+    
 };
 server.listen(PORT,()=>{
     console.log(`listening to port ${PORT}`)
