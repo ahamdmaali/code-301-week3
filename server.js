@@ -16,21 +16,20 @@ server.get('/',(req,res)=>{
 server.post('/searches',searchHandler);
 let booksArr=[];
 function searchHandler(req,res){
-    
+  booksArr=[];
      let bookName= req.body.title
      let bookAuther= req.body.auther
-    let url= `https://www.googleapis.com/books/v1/volumes?q=${bookName}+${bookAuther}`
+    let url= `https://www.googleapis.com/books/v1/volumes?q=in${bookName}+${bookAuther}`
    
     superagent.get(url)
     .then(booksData=>{
-    
+    // console.log(booksData.body.items);
       booksData.body.items.forEach(item => {
-       
         new Book(item);
-        console.log(booksArr)
         res.render('pages/searches/new',{bookDeatails: booksArr});
+        console.log(booksArr)
       })
-     
+      
     
     })
     .catch(error=>{
