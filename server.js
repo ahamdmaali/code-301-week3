@@ -7,23 +7,16 @@ const PORT = process.env.PORT || 3000;
 const server = express();
 const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
-
 server.use(express.urlencoded({extended:true}));
 server.set('view engine','ejs');
+server.use(express.static("./public"));
 
-let counter=0;
 server.get('/',(req,res)=>{
-  let SQL= `SELECT * FROM books`;
-  client.query(SQL)
-  .then(data=>{
-    counter++;
-    res.render('index',{book:data.rows[0]});
-  })
-    
+  res.render('pages/index')
 })
+
 server.post('/searches',searchHandler);
 server.get('/books/:id',bookDatailsHandler)
-
 function bookDatailsHandler(req,res){
  
   let bookId = req.params.id;
@@ -36,19 +29,30 @@ function bookDatailsHandler(req,res){
 }
 let booksArr=[];
 function searchHandler(req,res){
-    
+  
+let SQL = "SELECT * FROM books;";
+client.query(SQL)
+.then(results=>{
+ console.log(results.rows)
+//  res.render('pages/searches/new',{bookDeatails: results.rows[0]});
+})
      let bookName= req.body.title
      let bookAuther= req.body.auther
     let url= `https://www.googleapis.com/books/v1/volumes?q=${bookName}+${bookAuther}`
    
     superagent.get(url)
     .then(booksData=>{
-    
+      let SQL = `INSERT INTO books (title,auther,publisher,publishedDate,imageLinks,canonicalVolumeLink) VALUES
+  ($1,$2,$3,$4,$5,$6);`;
       booksData.body.items.forEach(item => {
+      let safeValues= [new Book(item).title,new Book(item).auther,new Book(item).publisher,new Book(item).publishedDate,new Book(item).imageLinks,new Book(item).canonicalVolumeLink];
+      
+      client.query(SQL,safeValues)
+      .then(results=>{
+       console.log(results.rows)
        
-        new Book(item);
-        console.log(booksArr)
-        res.render('pages/searches/new',{bookDeatails: booksArr});
+      })
+      res.render('pages/searches/new',{bookDeatails: results.rows[0]});
       })
      
     

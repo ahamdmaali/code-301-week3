@@ -8,5 +8,3 @@ CREATE TABLE IF NOT EXISTS books (
     canonicalVolumeLink VARCHAR(255)
 );
 
-INSERT  INTO books (title,auther,publisher,publishedDate,imageLinks,canonicalVolumeLink) VALUES
- ('aboutme','ahamd','ahmad','2020','imgage.com','ddnjnj.com');

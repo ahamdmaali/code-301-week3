@@ -5,25 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Books</title>
-   <link rel="stylesheet" href="./public/style.css">
+   <link rel="stylesheet" href="../../public/style.css">
 </head>
 <body>
     <h1>Hello World</h1>
+
     <form action="/searches" method="POST">
         <input type="text" name="title" id="title" placeholder="Book title">
         <input type="text" name="auther" id="title" placeholder="Book Auther">
         <button>Search</button>
             
          </form>
-         <div>
-            <% bookDeatails.forEach(item=>{ %>
-       <div>
-           <h1><%=item.title%></h1>
-           <img src="<%=item.imageLinks%>" alt="">
-           <h3>Auther : <%=item.auther%></h3>
-           <a href="<%=item.canonicalVolumeLink%>"></a>
-       </div>
-            <% })%>
-        </div>
+      
 </body>
 </html>
