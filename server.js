@@ -23,6 +23,7 @@ function searchHandler(req,res){
    
     superagent.get(url)
     .then(booksData=>{
+
       booksData.body.items.forEach(item => {
         arrayOfBooks.push(new Book(item));
         res.render('pages/searches/new',{bookDeatails: arrayOfBooks});
