@@ -14,11 +14,14 @@ server.use(express.static("./public"));
 server.get('/',(req,res)=>{
   res.render('pages/index')
 })
-
 server.post('/searches',searchHandler);
 server.get('/books/:id',bookDatailsHandler)
+server.put('/updateBook/:id',updateBookHandler);
+server.delete('/deleteBook/:id',deleteBookHandler);
+
+
+
 function bookDatailsHandler(req,res){
- 
   let bookId = req.params.id;
   let SQL = `SELECT * FROM books WHERE id=$1;`;
   let safeValue = [bookId];
@@ -34,7 +37,7 @@ let SQL = "SELECT * FROM books;";
 client.query(SQL)
 .then(results=>{
  console.log(results.rows)
-//  res.render('pages/searches/new',{bookDeatails: results.rows[0]});
+ res.render('pages/searches/new',{bookDeatails: results.rows[0]});
 })
      let bookName= req.body.title
      let bookAuther= req.body.auther
@@ -61,6 +64,28 @@ client.query(SQL)
         res.send(error);
     })
 }
+function updateBookHandler(req,res){
+
+  let {title,auther,publisher,publishedDate,imageLinks,canonicalVolumeLink} = req.body;
+  let SQL = `UPDATE tasks SET title=$1,auther=$2,publisher=$3,publishedDate=$4,imageLinks=$5,canonicalVolumeLink=$6 WHERE id=$7;`;
+  let safeValues = [title,auther,publisher,publishedDate,imageLinks,canonicalVolumeLink,req.params.id];
+  client.query(SQL,safeValues)
+  .then(()=>{
+    res.redirect(`/books/${req.params.id}`);
+  })
+}
+function deleteBookHandler(req,res){
+  
+  let SQL=`DELETE FROM books WHERE id=$1;`;
+  let safevalue=[req.params.id];
+  client.query(SQL,safevalue)
+  .then(()=>{
+    res.redirect('/');
+  })
+}
+
+
+
 
  let Book = function(bookObj){
     this.title= bookObj.volumeInfo.title;

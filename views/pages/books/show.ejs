@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Books</title>
-   <link rel="stylesheet" href="./public/style.css">
+   <link rel="stylesheet" href="../../../public/style.css">
 </head>
 <body>
     <h1>Hello World</h1>
@@ -17,8 +17,23 @@
            <img src="<%=item.imageLinks%>" alt="">
            <h3>Auther : <%=item.auther%></h3>
            <a href="<%=item.canonicalVolumeLink%>"></a>
+           <form action="/deleteTask/<%=item.id%>?_method=delete"  method="POST">
+            <button>Delete Book</button>
+          </form>
+          <button id="updateBtn">Update</button>
+          <section id="updateForm">
+            <form action="/updateBook/<%=item.id%>?_method=put" method="POST">
+              <input type="text" name="title" value="<%=item.title%>">
+              <textarea name="auther" cols="30" rows="10"><%=item.auther %></textarea>
+              <input type="text" name="publisher" value="<%=item.publisher %>">
+              <input type="text" name="publishedDate" value="<%=item.publishedDate %>">
+              <input type="text" name="imageLinks" value="<%=item.imageLinks %>">
+              <input type="text" name="canonicalVolumeLink" value="<%=item.canonicalVolumeLink %>">
+              <button type="submit">update Book</button>
+            </form>
        </div>
             <% })%>
         </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
