@@ -18,7 +18,32 @@
         </select>
         <br>
         <button>Search The Google Book API</button>
+
+      
+       <section>
+        <div>
+            <% database.forEach(item=>{ %>
+       <div>
+           <h1><%=item.title%></h1>
+           <img src="<%=item.imageLinks%>" alt="">
+           <h3>Auther : <%=item.auther%></h3>
+           <a href="<%=item.canonicalVolumeLink%>">Book link</a>
+           <h3>publisher : <%=item.publisher%></h3>
+           <h3>publishedDate : <%=item.publishedDate%></h3>
+           <form action="/books/<%= item.id %>">
+            <input style="display:none;" type="text"  name="imageLinks" id="text" value="<%= item.imageLinks %>">
+            <input style="display:none;" type="text" name="title" id="title" value="<%= item.title %>">
+           <input style="display:none;" type="text" name="authors" id="author" value="<%= item.author %>">
+           <input style="display:none;" type="text" name="description" id="description" value="<%= item.description %>">
+           <button style="margin-bottom: 10px; ">View Details</button>
+        </form>
+       </div>
+            <% })%>
+        </div>
+       </section>
+
     </form>
    
+
 </body>
 </html>
