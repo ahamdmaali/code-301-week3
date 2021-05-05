@@ -10,8 +10,10 @@ server.use(cors());
 server.use(express.urlencoded({extended:true}));
 server.set('view engine','ejs');
 server.use(express.static("./public"));
+
 const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
+
 
 
 
@@ -23,6 +25,7 @@ server.get('/',(req,res)=>{
   })
 })
 server.post('/searches',searchHandler);
+
 server.post('/books', bookSelectHandelr);
 server.get('/books/:id', bookDetailsHandelr);
 
@@ -36,6 +39,8 @@ function Book(bookObj) {
   this.canonicalVolumeLink= bookObj.volumeInfo.canonicalVolumeLink;
   
 };
+
+
 
 function searchHandler(req,res){
   
@@ -54,7 +59,9 @@ function searchHandler(req,res){
      .catch(error=>{
         res.send(error);
     })
+    
 }
+
 
 function bookDetailsHandelr(req, res) {
   let SQL = 'SELECT * FROM books WHERE id=$1;';
@@ -193,3 +200,17 @@ client.connect()
 // })
 
 //  
+ function Book(bookObj) {
+  this.title= bookObj.volumeInfo.title;
+  this.auther= bookObj.volumeInfo.authors;
+  this.description = bookObj.volumeInfo.description;
+  this.publisher= bookObj.volumeInfo.publisher;
+  this.publishedDate=bookObj.volumeInfo.publishedDate;
+  this.imageLinks= bookObj.volumeInfo.imageLinks.smallThumbnail;
+  this.canonicalVolumeLink= bookObj.volumeInfo.canonicalVolumeLink;
+  
+};
+server.listen(PORT,()=>{
+    console.log(`listening to port ${PORT}`)
+})
+
