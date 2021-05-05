@@ -1,5 +1,28 @@
 {
   "dependencies": {
-    "express": "^4.17.1"
-  }
+    "cors": "^2.8.5",
+    "dotenv": "^9.0.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7",
+    "pg": "^8.6.0",
+    "superagent": "^6.1.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "code-301-week3",
+  "description": "**Author**: Ahmad Al-Maali **Version**: 1.0.0",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahamdmaali/code-301-week3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahamdmaali/code-301-week3/issues"
+  },
+  "homepage": "https://github.com/ahamdmaali/code-301-week3#readme"
 }

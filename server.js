@@ -85,9 +85,6 @@ function bookSelectHandelr(req, res) {
   });
 }
 
-
-
-
 client.connect()
   .then(() => {
     server.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
