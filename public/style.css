@@ -1,12 +1,16 @@
 @import url(https://fonts.googleapis.com/css2?family=Alike&display=swap);
 body{
-    background-color: wheat;
+    background-color: white;
     font-family:'Alike', serif
     
    
 }
+h1{
+    text-align: center;
+
+}
 main{
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:auto;
     grid-auto-rows: minmax(150px, auto);
     grid-gap: 10px;
     
@@ -18,7 +22,12 @@ div{
       text-align: center;
       justify-content: center;
 }
-
+form{
+    background: #ccc;
+    border: 1px solid #111;
+  text-align: center;
+  justify-content: center;
+}
 @media (max-width:479px) {
     body{
         align-content: center;
@@ -31,11 +40,21 @@ div{
         grid-gap: 10px;
         
     }
+    h1{
+        text-align: center;
+        
+    }
     div{
         
             background: #ccc;
             border: 1px solid #111;
           text-align: center;
           justify-content: center;
+    }
+    form{
+        background: #ccc;
+        border: 1px solid #111;
+      text-align: center;
+      justify-content: center;
     }
 }
