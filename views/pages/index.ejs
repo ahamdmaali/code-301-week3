@@ -5,17 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Books</title>
-   <link rel="stylesheet" href="../../public/style.css">
+   <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Hello World</h1>
 
-    <form action="/searches" method="POST">
-        <input type="text" name="title" id="title" placeholder="Book title">
-        <input type="text" name="auther" id="title" placeholder="Book Auther">
-        <button>Search</button>
-            
-         </form>
+    <form action="/searches" method="POST"> 
+        <input name ="search" type="text" placeholder="Enter a title or author">
+        <select name="type" id="">
+            <option value="title">title</option>
+            <option value="author">author</option>
+        </select>
+        <br>
+        <button>Search The Google Book API</button>
       
+       <section>
+        <div>
+            <% database.forEach(item=>{ %>
+       <div>
+           <h1><%=item.title%></h1>
+           <img src="<%=item.imageLinks%>" alt="">
+           <h3>Auther : <%=item.auther%></h3>
+           <a href="<%=item.canonicalVolumeLink%>">Book link</a>
+           <h3>publisher : <%=item.publisher%></h3>
+           <h3>publishedDate : <%=item.publishedDate%></h3>
+           <form action="/books/<%= item.id %>">
+            <input style="display:none;" type="text"  name="imageLinks" id="text" value="<%= item.imageLinks %>">
+            <input style="display:none;" type="text" name="title" id="title" value="<%= item.title %>">
+           <input style="display:none;" type="text" name="authors" id="author" value="<%= item.author %>">
+           <input style="display:none;" type="text" name="description" id="description" value="<%= item.description %>">
+           <button style="margin-bottom: 10px; ">View Details</button>
+        </form>
+       </div>
+            <% })%>
+        </div>
+       </section>
 </body>
 </html>

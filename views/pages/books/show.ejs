@@ -8,17 +8,24 @@
    <link rel="stylesheet" href="./public/style.css">
 </head>
 <body>
-    <h1>Hello World</h1>
-   
-         <div>
-            <% bookDeatails.forEach(item=>{ %>
-       <div>
-           <h1><%=item.title%></h1>
-           <img src="<%=item.imageLinks%>" alt="">
-           <h3>Auther : <%=item.auther%></h3>
-           <a href="<%=item.canonicalVolumeLink%>"></a>
-       </div>
-            <% })%>
-        </div>
+    <header>
+        <h2>Find Your Favourit Book</h2>
+        <Button><a href="/">Home</a></Button>
+        <Button><a href="/searches"></a> Search Your Book</a></Button>
+    </header>
+
+    <main>
+        <section>
+            <% dataBaseData.forEach((item)=>{ %> 
+                <div class="books">
+                   <img src="<%= item.imageLinks %>" alt="">
+                   <h3><%= item.title %></h3>
+                   <h4><%= item.authors %></h4>
+                   <p><%= item.description %></p>
+              
+               </div>
+              <% }) %>
+        </section>
+    </main>
 </body>
 </html>
