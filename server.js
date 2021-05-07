@@ -22,8 +22,8 @@ server.get('/',(req,res)=>{
   client.query(SQL).then(result => {
     // console.log(result.rows)
     res.render('./pages/index',{database:result.rows});
-  })
-})
+  });
+});
 server.post('/searches',searchHandler);
 
 server.post('/books', bookSelectHandelr);
@@ -58,10 +58,21 @@ function searchHandler(req,res){
     })
      .catch(error=>{
         res.send(error);
-    })
-    
-}
+    });
+};
 
+function bookSelectHandelr(req, res) {
+  let SQL = `INSERT INTO books (title,author,imageLinks,descriptions) VALUES ($1,$2,$3,$4) RETURNING *;`;
+  let safeValues = [req.body.title, req.body.authors,req.body.imageLinks,req.body.description];
+  
+  client.query(SQL, safeValues)
+  .then(results => {
+    res.redirect(`books/${results.rows[0].id}`);
+  }) 
+  .catch(error => {
+    res.send(error);
+  });
+};
 
 function bookDetailsHandelr(req, res) {
   let SQL = 'SELECT * FROM books WHERE id=$1;';
@@ -71,19 +82,7 @@ function bookDetailsHandelr(req, res) {
   }) .catch(error => {
     res.send(error);
   });
-}
-
-function bookSelectHandelr(req, res) {
-  let SQL = `INSERT INTO books (title,author,imageLinks,descriptions) VALUES ($1,$2,$3,$4) RETURNING *`;
-  let safeValues = [req.body.title, req.body.authors,req.body.imageLinks,req.body.description];
-  client.query(SQL, safeValues)
-  .then(results => {
-    res.redirect(`books/${results.rows[0].id}`);
-  }) 
-  .catch(error => {
-    res.send(error);
-  });
-}
+};
 
 client.connect()
   .then(() => {
