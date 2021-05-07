@@ -12,9 +12,13 @@ server.set('view engine','ejs');
 server.use(express.static("./public"));
 
 server.get('/',(req,res)=>{
-  res.render('pages/index')
-})
+  let SQL = 'SELECT * FROM books;';
+  client.query(SQL).then(result => {
+    res.render('./pages/index',{database:result.rows});
+  });
+});
 server.post('/searches',searchHandler);
+
 server.post('/books', bookSelectHandelr);
 server.get('/books/:id', bookDetailsHandelr);
 server.put('/updateBook/:id',updateBookHandler);
